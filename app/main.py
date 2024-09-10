@@ -1,15 +1,13 @@
 from fastapi import FastAPI
 from app.model import Query
-from app.services import search_restaurants, generate_prompt, get_openai_response
+from app.services import get_restaurant_recommendations
 
 app = FastAPI()
 
 @app.post("/recommend")
 def recommend_restaurants(query: Query):
-    # 사용자의 쿼리를 기반으로 맛집 검색
-    results = search_restaurants(query.query)
-    prompt = generate_prompt(results)
-    response = get_openai_response(prompt)
+    # 사용자의 쿼리를 기반으로 맛집 검색 (구글 플레이스 API 사용)
+    response = get_restaurant_recommendations(query.query)
     return {"recommendation": response}
 
 if __name__ == "__main__":
